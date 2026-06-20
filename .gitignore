@@ -1,0 +1,36 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Database
+*.db
+*.sqlite3
+
+# Node
+recon-frontend/node_modules/
+recon-frontend/build/
+
+# Python scripts we used for setup
+write_*.py
+update_*.py
+fix_*.py
+test_*.py
+reset_pw.py
+
+# OS
+.DS_Store
+Thumbs.db
+# Security
+*.key
+*.pem
+*.cert
+
+# Logs
+*.log
+logs/
+
+# Python setup files we created
+build_*.py
