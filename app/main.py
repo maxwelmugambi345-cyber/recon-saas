@@ -17,7 +17,11 @@ app = FastAPI(title="Payment Reconciliation SaaS")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "https://recon-saas.vercel.app",
+        "https://recon-saas-git-main-recon-saas.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
