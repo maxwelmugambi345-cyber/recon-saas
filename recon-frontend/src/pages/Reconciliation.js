@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getSummary, getCustomerReconciliation, getCustomers } from '../api/api';
+import { getCustomerReconciliation, getCustomers } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
 export default function Reconciliation() {
