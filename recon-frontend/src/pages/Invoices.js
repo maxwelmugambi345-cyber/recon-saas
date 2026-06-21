@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getInvoices, createInvoice, getCustomers } from '../api/api';
+import { getInvoices, createInvoice, getCustomers, downloadInvoicePdf } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
 export default function Invoices() {
@@ -30,6 +30,21 @@ export default function Invoices() {
       setSuccess('Invoice created successfully');
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to create invoice');
+    }
+  };
+
+  const handleDownloadPdf = async (invoiceId) => {
+    try {
+      const res = await downloadInvoicePdf(invoiceId);
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `invoice_${invoiceId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      setError('Failed to download PDF');
     }
   };
 
@@ -73,18 +88,19 @@ export default function Invoices() {
         <thead>
           <tr>
             <th style={styles.th}>ID</th>
-            <th style={styles.th}>Customer ID</th>
+            <th style={styles.th}>Customer</th>
             <th style={styles.th}>Amount (KES)</th>
             <th style={styles.th}>Status</th>
             <th style={styles.th}>Due Date</th>
             <th style={styles.th}>Created</th>
+            <th style={styles.th}>Actions</th>
           </tr>
         </thead>
         <tbody>
           {invoices.map((inv) => (
             <tr key={inv.id}>
               <td style={styles.td}>{inv.id}</td>
-              <td style={styles.td}>{inv.customer_id}</td>
+              <td style={styles.td}>{customers.find(c => c.id === inv.customer_id)?.name || inv.customer_id}</td>
               <td style={styles.td}>{Number(inv.amount).toLocaleString()}</td>
               <td style={styles.td}>
                 <span style={{ color: statusColor(inv.status), fontWeight: 'bold' }}>
@@ -93,6 +109,11 @@ export default function Invoices() {
               </td>
               <td style={styles.td}>{inv.due_date}</td>
               <td style={styles.td}>{new Date(inv.created_at).toLocaleDateString()}</td>
+              <td style={styles.td}>
+                <button style={styles.pdfBtn} onClick={() => handleDownloadPdf(inv.id)}>
+                  Download PDF
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -112,6 +133,7 @@ const styles = {
   table: { width: '100%', borderCollapse: 'collapse', background: '#fff', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' },
   th: { padding: '12px 16px', background: '#f9fafb', textAlign: 'left', fontSize: '13px', color: '#6b7280', borderBottom: '1px solid #e5e7eb' },
   td: { padding: '12px 16px', borderBottom: '1px solid #e5e7eb', fontSize: '14px' },
+  pdfBtn: { padding: '6px 12px', background: '#4f46e5', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' },
   error: { color: 'red', marginBottom: '12px' },
   success: { color: 'green', marginBottom: '12px' }
 };
