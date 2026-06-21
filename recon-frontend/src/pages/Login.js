@@ -39,6 +39,8 @@ export default function Login() {
           </div>
           <button style={styles.button} type="submit">Login</button>
         </form>
+        <p style={styles.register}>Don't have an account? <span style={styles.link} onClick={() => navigate('/register')}>Sign up</span></p>
+        </form>
       </div>
     </div>
   );
@@ -52,5 +54,7 @@ const styles = {
   field: { marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '6px' },
   input: { padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '14px' },
   button: { width: '100%', padding: '12px', background: '#4f46e5', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '16px', cursor: 'pointer' },
-  error: { color: 'red', marginBottom: '12px' }
+  error: { color: 'red', marginBottom: '12px' },
+  register: { marginTop: '16px', textAlign: 'center', color: '#888', fontSize: '14px' },
+  link: { color: '#4f46e5', cursor: 'pointer', fontWeight: 'bold' }
 };
