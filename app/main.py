@@ -1,5 +1,8 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from app.core.database import Base, engine, SessionLocal
 from app.api.routes_customers import router as customers_router
 from app.api.routes_invoices import router as invoices_router
@@ -13,7 +16,12 @@ from app.utils.overdue import mark_overdue_invoices
 
 Base.metadata.create_all(bind=engine)
 
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI(title="Payment Reconciliation SaaS")
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
