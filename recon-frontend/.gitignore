@@ -21,7 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-src/
 {
 add_rate_limiting.py
 build_*.py
