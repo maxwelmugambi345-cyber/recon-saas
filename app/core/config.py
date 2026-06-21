@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     CALLBACK_BASE_URL: str = "https://your-ngrok-url.ngrok.io"
     RESEND_API_KEY: str = ""
     SECRET_KEY: str = "change-this-to-a-very-long-random-secret-key"
+    TWILIO_ACCOUNT_SID: str = ""
+    TWILIO_AUTH_TOKEN: str = ""
+    TWILIO_PHONE_NUMBER: str = ""
 
     class Config:
         env_file = ".env"

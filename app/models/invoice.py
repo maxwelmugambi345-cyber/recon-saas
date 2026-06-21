@@ -14,10 +14,11 @@ class Invoice(Base):
     __tablename__ = "invoices"
     id = Column(Integer, primary_key=True, index=True)
     customer_id = Column(Integer, ForeignKey("customers.id"), nullable=False)
+    business_id = Column(Integer, ForeignKey("businesses.id"), nullable=False)
     amount = Column(Numeric(10, 2), nullable=False)
     status = Column(Enum(InvoiceStatus), default=InvoiceStatus.pending)
     due_date = Column(Date, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-
     customer = relationship("Customer", back_populates="invoices")
+    business = relationship("Business", back_populates="invoices")
     payments = relationship("Payment", back_populates="invoice")

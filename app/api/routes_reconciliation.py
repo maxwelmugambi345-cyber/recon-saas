@@ -42,10 +42,10 @@ def get_invoice_reconciliation(invoice_id: int, db: Session = Depends(get_db), c
 
 @router.get("/customer/{customer_id}")
 def get_customer_reconciliation(customer_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    customer = db.query(Customer).filter(Customer.id == customer_id).first()
+    customer = db.query(Customer).filter(Customer.id == customer_id, Customer.business_id == current_user.business_id).first()
     if not customer:
         raise HTTPException(status_code=404, detail="Customer not found")
-    invoices = db.query(Invoice).filter(Invoice.customer_id == customer_id).all()
+    invoices = db.query(Invoice).filter(Invoice.customer_id == customer_id, Invoice.business_id == current_user.business_id).all()
     summary = []
     total_invoiced = Decimal("0")
     total_paid = Decimal("0")

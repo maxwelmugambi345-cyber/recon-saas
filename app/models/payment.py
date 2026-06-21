@@ -14,11 +14,12 @@ class Payment(Base):
     id = Column(Integer, primary_key=True, index=True)
     invoice_id = Column(Integer, ForeignKey("invoices.id"), nullable=False)
     customer_id = Column(Integer, ForeignKey("customers.id"), nullable=False)
+    business_id = Column(Integer, ForeignKey("businesses.id"), nullable=False)
     amount = Column(Numeric(10, 2), nullable=False)
     channel = Column(Enum(PaymentChannel), nullable=False)
     reference = Column(String, unique=True, nullable=True)
     received_by = Column(String, nullable=True)
     payment_date = Column(DateTime, default=datetime.utcnow)
-
     invoice = relationship("Invoice", back_populates="payments")
     customer = relationship("Customer")
+    business = relationship("Business", back_populates="payments")
