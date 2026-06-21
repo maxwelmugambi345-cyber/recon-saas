@@ -48,6 +48,12 @@ export default function Invoices() {
     }
   };
 
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-KE', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+
   const statusColor = (status) => {
     if (status === 'paid') return 'green';
     if (status === 'overdue') return 'red';
@@ -107,8 +113,8 @@ export default function Invoices() {
                   {inv.status.toUpperCase()}
                 </span>
               </td>
-              <td style={styles.td}>{inv.due_date}</td>
-              <td style={styles.td}>{new Date(inv.created_at).toLocaleDateString()}</td>
+              <td style={styles.td}>{formatDate(inv.due_date)}</td>
+              <td style={styles.td}>{formatDate(inv.created_at)}</td>
               <td style={styles.td}>
                 <button style={styles.pdfBtn} onClick={() => handleDownloadPdf(inv.id)}>
                   Download PDF
