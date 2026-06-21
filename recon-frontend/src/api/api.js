@@ -33,3 +33,4 @@ export const createPayment = (data) => API.post('/payments/', data);
 export const getSummary = () => API.get('/reconciliation/summary');
 export const getCustomerReconciliation = (customerId) =>
   API.get(`/reconciliation/customer/${customerId}`);
+export const downloadInvoicePdf = (invoiceId) =, { responseType: 'blob' }); 
