@@ -48,20 +48,19 @@ export default function Invoices() {
     }
   };
 
-   
   const formatDate = (dateStr) => {
-  if (!dateStr) return '';
-  const [year, month, day] = dateStr.split('T')[0].split('-');
-  const date = new Date(year, month - 1, day);
-  return date.toLocaleDateString('en-KE', { day: '2-digit', month: 'short', year: 'numeric' });
-};
-  
-const formatDate = (dateStr) => {
-  if (!dateStr) return '';
-  const [year, month, day] = dateStr.split('T')[0].split('-');
-  const date = new Date(year, month - 1, day);
-  return date.toLocaleDateString('en-KE', { day: '2-digit', month: 'short', year: 'numeric' });
-};
+    if (!dateStr) return '';
+    const [year, month, day] = dateStr.split('T')[0].split('-');
+    const date = new Date(year, month - 1, day);
+    return date.toLocaleDateString('en-KE', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+
+  const statusColor = (status) => {
+    if (status === 'paid') return 'green';
+    if (status === 'overdue') return 'red';
+    if (status === 'partial') return 'orange';
+    return '#6b7280';
+  };
 
   return (
     <div style={styles.container}>
