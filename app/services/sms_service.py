@@ -1,34 +1,36 @@
 import os
+import requests
 from dotenv import load_dotenv
-from twilio.rest import Client
 
 load_dotenv()
 
-account_sid = os.getenv("TWILIO_ACCOUNT_SID")
-auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-from_number = os.getenv("TWILIO_PHONE_NUMBER")
-
-def get_client():
-    return Client(account_sid, auth_token)
+TERMII_API_KEY = os.getenv("TERMII_API_KEY")
+TERMII_SENDER_ID = os.getenv("TERMII_SENDER_ID", "PayRecon")
+TERMII_URL = "https://v3.api.termii.com/api/sms/send"
 
 def normalize_phone(phone: str) -> str:
     phone = str(phone).strip().replace(" ", "").replace("-", "")
     if phone.startswith("0"):
-        phone = "+254" + phone[1:]
-    elif phone.startswith("254"):
-        phone = "+" + phone
+        phone = "254" + phone[1:]
+    elif phone.startswith("+"):
+        phone = phone[1:]
     return phone
 
 def send_sms(to: str, message: str) -> bool:
     try:
-        client = get_client()
         to_number = normalize_phone(to)
-        client.messages.create(
-            body=message,
-            from_=from_number,
-            to=to_number
-        )
-        return True
+        payload = {
+            "to": to_number,
+            "from": TERMII_SENDER_ID,
+            "sms": message,
+            "type": "plain",
+            "channel": "generic",
+            "api_key": TERMII_API_KEY,
+        }
+        response = requests.post(TERMII_URL, json=payload)
+        result = response.json()
+        print(f"Termii response: {result}")
+        return response.status_code == 200
     except Exception as e:
         print(f"SMS error: {e}")
         return False
