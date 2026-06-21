@@ -23,7 +23,9 @@ export default function Customers() {
       setForm({ name: '', phone: '', email: '' });
       setSuccess('Customer created successfully');
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to create customer');
+     const detail = err.response?.data?.detail;
+     setError(typeof detail === 'string' ? detail : 'Failed to create customer'); 
+      
     }
   };
 

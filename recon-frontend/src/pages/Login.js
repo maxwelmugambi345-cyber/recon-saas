@@ -31,16 +31,17 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <div style={styles.field}>
             <label>Email</label>
-            <input style={styles.input} type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <input style={styles.input} type="email" value={email}
+              onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div style={styles.field}>
             <label>Password</label>
-            <input style={styles.input} type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input style={styles.input} type="password" value={password}
+              onChange={(e) => setPassword(e.target.value)} required />
           </div>
           <button style={styles.button} type="submit">Login</button>
         </form>
         <p style={styles.register}>Don't have an account? <span style={styles.link} onClick={() => navigate('/register')}>Sign up</span></p>
-        </form>
       </div>
     </div>
   );
