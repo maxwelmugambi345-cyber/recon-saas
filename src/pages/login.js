@@ -13,12 +13,15 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    console.log('Attempting login with:', email);
     try {
       const res = await login(email, password);
+      console.log('Success:', res.data);
       saveToken(res.data.access_token);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message || 'Login failed');
+      console.log('Error:', err.message, err.response);
+      setError(err.message || 'Unknown error');
     }
   };
 
@@ -31,18 +34,26 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <div style={styles.field}>
             <label>Email</label>
-            <input style={styles.input} type="email" value={email}
-              onChange={(e) => setEmail(e.target.value)} required />
+            <input
+              style={styles.input}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
           <div style={styles.field}>
             <label>Password</label>
-            <input style={styles.input} type="password" value={password}
-              onChange={(e) => setPassword(e.target.value)} required />
+            <input
+              style={styles.input}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
           <button style={styles.button} type="submit">Login</button>
-          <p style={styles.forgot}><span style={styles.link} onClick={() => navigate('/forgot-password')}>Forgot password?</span></p>
         </form>
-        <p style={styles.register}>Don't have an account? <span style={styles.link} onClick={() => navigate('/register')}>Sign up</span></p>
       </div>
     </div>
   );
@@ -56,8 +67,5 @@ const styles = {
   field: { marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '6px' },
   input: { padding: '10px', borderRadius: '4px', border: '1px solid #ddd', fontSize: '14px' },
   button: { width: '100%', padding: '12px', background: '#4f46e5', color: '#fff', border: 'none', borderRadius: '4px', fontSize: '16px', cursor: 'pointer' },
-  error: { color: 'red', marginBottom: '12px' },
-  register: { marginTop: '16px', textAlign: 'center', color: '#888', fontSize: '14px' },
-  forgot: { marginTop: '8px', textAlign: 'right', fontSize: '13px' },
-  link: { color: '#4f46e5', cursor: 'pointer', fontWeight: 'bold' }
+  error: { color: 'red', marginBottom: '12px' }
 };

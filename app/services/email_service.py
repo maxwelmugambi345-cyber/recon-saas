@@ -115,3 +115,26 @@ def send_overdue_reminder(customer_email: str, customer_name: str, invoice_id: i
     except Exception as e:
         print(f"Email error: {e}")
         return False
+
+def send_password_reset_email(email: str, token: str):
+    reset_url = f"https://recon-saas.vercel.app/reset-password?token={token}"
+    try:
+        resend.Emails.send({
+            "from": FROM_EMAIL,
+            "to": email,
+            "subject": "Reset Your Password",
+            "html": f"""
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #4f46e5;">Reset Your Password</h2>
+                <p>You requested a password reset for your Payment Reconciliation account.</p>
+                <p>Click the button below to reset your password. This link expires in 1 hour.</p>
+                <a href="{reset_url}" style="display: inline-block; padding: 12px 24px; background: #4f46e5; color: #fff; text-decoration: none; border-radius: 4px; margin: 20px 0;">Reset Password</a>
+                <p>If you didn't request this, ignore this email.</p>
+                <p style="color: #6b7280; font-size: 12px;">This is an automated message from Payment Reconciliation SaaS.</p>
+            </div>
+            """
+        })
+        return True
+    except Exception as e:
+        print(f"Email error: {e}")
+        return False

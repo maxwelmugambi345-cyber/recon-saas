@@ -12,6 +12,7 @@ from app.api.routes_auth import router as auth_router
 from app.api.routes_mpesa import router as mpesa_router
 from app.api.routes_bank import router as bank_router
 from app.api.routes_bank_import import router as bank_import_router
+from app.api.routes_password_reset import router as password_reset_router
 from app.utils.overdue import mark_overdue_invoices
 
 Base.metadata.create_all(bind=engine)
@@ -52,6 +53,7 @@ app.include_router(reconciliation_router)
 app.include_router(mpesa_router)
 app.include_router(bank_router)
 app.include_router(bank_import_router)
+app.include_router(password_reset_router)
 
 @app.get("/")
 def home():
