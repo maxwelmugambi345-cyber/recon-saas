@@ -40,6 +40,7 @@ export default function Dashboard() {
           <button style={styles.navBtn} onClick={() => navigate('/payments')}>Payments</button>
           <button style={styles.navBtn} onClick={() => navigate('/reconciliation')}>Reconciliation</button>
           <button style={styles.navBtn} onClick={() => navigate('/bank-import')}>Bank Import</button>
+          <button style={styles.navBtn} onClick={() => navigate('/users')}>Team</button>
           <button style={styles.logoutBtn} onClick={() => { logout(); navigate('/'); }}>Logout</button>
         </div>
       </div>

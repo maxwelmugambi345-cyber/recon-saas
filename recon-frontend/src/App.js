@@ -10,6 +10,7 @@ import BankImport from './pages/BankImport';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import UserManagement from './pages/UserManagement';
 
 function PrivateRoute({ children }) {
   const { token } = useAuth();
@@ -31,6 +32,7 @@ function App() {
           <Route path="/payments" element={<PrivateRoute><Payments /></PrivateRoute>} />
           <Route path="/reconciliation" element={<PrivateRoute><Reconciliation /></PrivateRoute>} />
           <Route path="/bank-import" element={<PrivateRoute><BankImport /></PrivateRoute>} />
+          <Route path="/users" element={<PrivateRoute><UserManagement /></PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
