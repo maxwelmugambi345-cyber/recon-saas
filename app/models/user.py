@@ -8,5 +8,6 @@ class User(Base):
     email = Column(String, unique=True, nullable=False, index=True)
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
+    role = Column(String, default="owner")
     business_id = Column(Integer, ForeignKey("businesses.id"), nullable=True)
     business = relationship("Business", back_populates="users")

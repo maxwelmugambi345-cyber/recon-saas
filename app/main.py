@@ -14,7 +14,7 @@ from app.api.routes_bank import router as bank_router
 from app.api.routes_bank_import import router as bank_import_router
 from app.api.routes_password_reset import router as password_reset_router
 from app.utils.overdue import mark_overdue_invoices
-
+from app.api.routes_users import router as users_router
 Base.metadata.create_all(bind=engine)
 
 limiter = Limiter(key_func=get_remote_address)
@@ -54,7 +54,7 @@ app.include_router(mpesa_router)
 app.include_router(bank_router)
 app.include_router(bank_import_router)
 app.include_router(password_reset_router)
-
+app.include_router(users_router)
 @app.get("/")
 def home():
     return {"message": "Payment Reconciliation SaaS is running"}
