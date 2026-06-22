@@ -1,6 +1,8 @@
 from app.utils.overdue import mark_overdue_invoices
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy import func, extract
+from datetime import datetime
 from app.core.database import get_db
 from app.models.invoice import Invoice, InvoiceStatus
 from app.models.payment import Payment
@@ -93,6 +95,27 @@ def get_overall_summary(db: Session = Depends(get_db), current_user: User = Depe
             "overdue": overdue
         }
     }
+
+@router.get("/monthly-revenue")
+def get_monthly_revenue(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    current_year = datetime.utcnow().year
+    results = (
+        db.query(
+            extract('month', Payment.payment_date).label('month'),
+            func.sum(Payment.amount).label('total')
+        )
+        .filter(extract('year', Payment.payment_date) == current_year)
+        .filter(Payment.business_id == current_user.business_id)
+        .group_by(extract('month', Payment.payment_date))
+        .order_by(extract('month', Payment.payment_date))
+        .all()
+    )
+    months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    data = {m: 0 for m in months}
+    for row in results:
+        data[months[int(row.month) - 1]] = float(row.total)
+    return data
+
 @router.post("/mark-overdue")
 def mark_overdue(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     count = mark_overdue_invoices(db)
