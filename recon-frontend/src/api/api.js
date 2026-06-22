@@ -29,3 +29,4 @@ export const getCustomerReconciliation = (customerId) =>
   API.get(`/reconciliation/customer/${customerId}`);
 export const downloadInvoicePdf = (invoiceId) =>
   API.get(`/invoices/${invoiceId}/pdf`, { responseType: 'blob' });
+export default API;
