@@ -1,3 +1,5 @@
+from app.api.routes_billing import router as billing_router
+from app.api.routes_billing import router as billing_router
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -58,3 +60,5 @@ app.include_router(users_router)
 @app.get("/")
 def home():
     return {"message": "Payment Reconciliation SaaS is running"}
+app.include_router(billing_router)
+app.include_router(billing_router)

@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import UserManagement from './pages/UserManagement';
+import Billing from './pages/Billing';
 
 function PrivateRoute({ children }) {
   const { token } = useAuth();
@@ -33,6 +34,7 @@ function App() {
           <Route path="/reconciliation" element={<PrivateRoute><Reconciliation /></PrivateRoute>} />
           <Route path="/bank-import" element={<PrivateRoute><BankImport /></PrivateRoute>} />
           <Route path="/users" element={<PrivateRoute><UserManagement /></PrivateRoute>} />
+          <Route path="/billing" element={<PrivateRoute><Billing /></PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
